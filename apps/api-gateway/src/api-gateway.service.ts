@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { map } from 'rxjs/operators';
-import { SERVICES } from './services';
+import { SERVICES } from './configs/services';
 
 @Injectable()
 export class ApiGatewayService {

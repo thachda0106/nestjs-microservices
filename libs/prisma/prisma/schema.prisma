@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model account {
+  id       Int        @id @default(autoincrement())
+  username String     @unique(map: "username") @db.VarChar(255)
+  password String     @db.VarChar(255)
+  roleId   Int?
+  enable   Int?       @db.TinyInt
+  role     role?      @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "account_ibfk_1")
+  comment  comment[]
+  customer customer[]
+  employee employee[]
+  reply    reply[]
+
+  @@index([roleId], map: "roleId")
+}
+
+model address {
+  id        Int        @id @default(autoincrement())
+  addressId Int?
+  street    String?    @db.VarChar(255)
+  city      String?    @db.VarChar(255)
+  state     String?    @db.VarChar(255)
+  zipCode   String?    @db.VarChar(10)
+  country   String?    @db.VarChar(255)
+  employee  employee[]
+}
+
+model attribute {
+  id               Int                @id @default(autoincrement())
+  attributeId      Int?
+  categoryId       Int?
+  name             String             @db.VarChar(255)
+  categories       categories?        @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "attribute_ibfk_1")
+  productAttribute productAttribute[]
+
+  @@index([categoryId], map: "categoryId")
+}
+
+model brand {
+  id       Int       @id @default(autoincrement())
+  name     String?   @db.VarChar(255)
+  imageUrl String?   @db.VarChar(255)
+  product  product[]
+}
+
+model cart {
+  id         Int        @id @default(autoincrement())
+  cartId     Int?
+  customerId Int?
+  customer   customer?  @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cart_ibfk_1")
+  cartItem   cartItem[]
+
+  @@index([customerId], map: "customerId")
+}
+
+model cartItem {
+  id        Int      @id @default(autoincrement())
+  itemId    Int?
+  productId Int?
+  cartId    Int?
+  quantity  Int?
+  product   product? @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cartItem_ibfk_1")
+  cart      cart?    @relation(fields: [cartId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cartItem_ibfk_2")
+
+  @@index([cartId], map: "cartId")
+  @@index([productId], map: "productId")
+}
+
+model categories {
+  id         Int         @id @default(autoincrement())
+  categoryId Int?
+  name       String      @db.VarChar(255)
+  attribute  attribute[]
+  product    product[]
+}
+
+model comment {
+  id        Int       @id @default(autoincrement())
+  commentId Int?
+  username  String?   @db.VarChar(255)
+  productId Int?
+  createdAt DateTime? @db.DateTime(0)
+  updatedAt DateTime? @db.DateTime(0)
+  content   String?   @db.Text
+  account   account?  @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_1")
+  product   product?  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_2")
+  reply     reply[]
+
+  @@index([productId], map: "productId")
+  @@index([username], map: "username")
+}
+
+model customer {
+  id              Int               @id @default(autoincrement())
+  customerId      Int?
+  fullName        String            @db.VarChar(255)
+  username        String?           @db.VarChar(255)
+  email           String?           @db.VarChar(255)
+  avatar          String?           @db.VarChar(255)
+  phoneNumber     String?           @db.VarChar(20)
+  shippingAddress String?           @db.Text
+  gender          Int?              @db.TinyInt
+  cart            cart[]
+  account         account?          @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "customer_ibfk_1")
+  customerVoucher customerVoucher[]
+  order           order[]
+  productRating   productRating[]
+
+  @@index([username], map: "username")
+}
+
+model customerVoucher {
+  id         Int       @id @default(autoincrement())
+  customerId Int?
+  voucherId  Int?
+  isUsed     Int?      @db.TinyInt
+  customer   customer? @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "customerVoucher_ibfk_1")
+  voucher    voucher?  @relation(fields: [voucherId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "customerVoucher_ibfk_2")
+
+  @@index([customerId], map: "customerId")
+  @@index([voucherId], map: "voucherId")
+}
+
+model employee {
+  id             Int       @id @default(autoincrement())
+  employeeId     Int?
+  avatar         String?   @db.VarChar(255)
+  email          String?   @db.VarChar(255)
+  fullName       String?   @db.VarChar(255)
+  gender         Int?      @db.TinyInt
+  phoneNumber    String?   @db.VarChar(20)
+  identification String?   @db.VarChar(50)
+  dateOfBirth    DateTime? @db.Date
+  username       String?   @db.VarChar(255)
+  addressId      Int?
+  account        account?  @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "employee_ibfk_1")
+  address        address?  @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "employee_ibfk_2")
+  order          order[]
+
+  @@index([addressId], map: "addressId")
+  @@index([username], map: "username")
+}
+
+model order {
+  id              Int             @id @default(autoincrement())
+  orderId         Int?
+  customerId      Int?
+  shippingAddress String?         @db.Text
+  phoneNumber     String?         @db.VarChar(20)
+  fullName        String?         @db.VarChar(255)
+  employeeId      Int?
+  isPay           Int?            @db.TinyInt
+  orderStatus     String?         @db.VarChar(255)
+  dateCreate      DateTime?       @db.DateTime(0)
+  customer        customer?       @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "order_ibfk_1")
+  employee        employee?       @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "order_ibfk_2")
+  orderDetail     orderDetail[]
+  orderVoucher    orderVoucher[]
+  productRating   productRating[]
+
+  @@index([customerId], map: "customerId")
+  @@index([employeeId], map: "employeeId")
+}
+
+model orderDetail {
+  id         Int      @id @default(autoincrement())
+  orderId    Int?
+  productId  Int?
+  quantity   Int?
+  priceOrder Float?   @db.Float
+  order      order?   @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orderDetail_ibfk_1")
+  product    product? @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orderDetail_ibfk_2")
+
+  @@index([orderId], map: "orderId")
+  @@index([productId], map: "productId")
+}
+
+model orderVoucher {
+  id        Int      @id @default(autoincrement())
+  orderId   Int?
+  voucherId Int?
+  order     order?   @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orderVoucher_ibfk_1")
+  voucher   voucher? @relation(fields: [voucherId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orderVoucher_ibfk_2")
+
+  @@index([orderId], map: "orderId")
+  @@index([voucherId], map: "voucherId")
+}
+
+model product {
+  id                Int                @id @default(autoincrement())
+  productId         Int?
+  name              String?            @db.VarChar(255)
+  price             Float?             @db.Float
+  thumbnail         String?            @db.VarChar(255)
+  quantity          Int?
+  description       String?            @db.Text
+  brandId           Int?
+  origin            String?            @db.VarChar(255)
+  guarantee         Int?
+  discountPercent   Float?             @db.Float
+  dateDiscountStart DateTime?          @db.DateTime(0)
+  dateDiscountEnd   DateTime?          @db.DateTime(0)
+  categoryId        Int?
+  cartItem          cartItem[]
+  comment           comment[]
+  orderDetail       orderDetail[]
+  categories        categories?        @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_ibfk_1")
+  brand             brand?             @relation(fields: [brandId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "product_ibfk_2")
+  productAttribute  productAttribute[]
+  productImage      productImage[]
+  productRating     productRating[]
+  voucher           voucher[]
+
+  @@index([brandId], map: "brandId")
+  @@index([categoryId], map: "categoryId")
+}
+
+model productAttribute {
+  id          Int        @id @default(autoincrement())
+  productId   Int?
+  attributeId Int?
+  value       String?    @db.VarChar(255)
+  product     product?   @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productAttribute_ibfk_1")
+  attribute   attribute? @relation(fields: [attributeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productAttribute_ibfk_2")
+
+  @@index([attributeId], map: "attributeId")
+  @@index([productId], map: "productId")
+}
+
+model productImage {
+  id        Int      @id @default(autoincrement())
+  productId Int?
+  imageURL  String?  @db.VarChar(255)
+  product   product? @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productImage_ibfk_1")
+
+  @@index([productId], map: "productId")
+}
+
+model productRating {
+  id         Int       @id @default(autoincrement())
+  productId  Int?
+  orderId    Int?
+  customerId Int?
+  starNumber Int?
+  content    String?   @db.Text
+  createdAt  DateTime? @db.DateTime(0)
+  product    product?  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productRating_ibfk_1")
+  customer   customer? @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productRating_ibfk_2")
+  order      order?    @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productRating_ibfk_3")
+
+  @@index([customerId], map: "customerId")
+  @@index([orderId], map: "orderId")
+  @@index([productId], map: "productId")
+}
+
+model reply {
+  id        Int       @id @default(autoincrement())
+  replyId   Int?
+  commentId Int?
+  username  String?   @db.VarChar(255)
+  content   String?   @db.Text
+  createdAt DateTime? @db.DateTime(0)
+  updateAt  DateTime? @db.DateTime(0)
+  comment   comment?  @relation(fields: [commentId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reply_ibfk_1")
+  account   account?  @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "reply_ibfk_2")
+
+  @@index([commentId], map: "commentId")
+  @@index([username], map: "username")
+}
+
+model role {
+  id      Int       @id @default(autoincrement())
+  roleId  Int?
+  type    String    @db.VarChar(255)
+  account account[]
+}
+
+model voucher {
+  id               Int               @id @default(autoincrement())
+  voucherId        Int?
+  quantity         Int?
+  description      String?           @db.Text
+  discountPercent  Float?            @db.Float
+  productId        Int?
+  maxDiscountValue Float?            @db.Float
+  title            String?           @db.VarChar(255)
+  dateStart        DateTime?         @db.DateTime(0)
+  dateEnd          DateTime?         @db.DateTime(0)
+  customerVoucher  customerVoucher[]
+  orderVoucher     orderVoucher[]
+  product          product?          @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "voucher_ibfk_1")
+
+  @@index([productId], map: "productId")
+}
