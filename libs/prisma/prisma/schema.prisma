@@ -278,7 +278,7 @@ model reply {
 
 model role {
   id      Int       @id @default(autoincrement())
-  roleId  Int?
+  code    String    @db.VarChar(10)
   type    String    @db.VarChar(255)
   account account[]
 }
