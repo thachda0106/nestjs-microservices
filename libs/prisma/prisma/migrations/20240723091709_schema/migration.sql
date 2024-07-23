@@ -367,3 +367,8 @@ ALTER TABLE `reply` ADD CONSTRAINT `reply_ibfk_2` FOREIGN KEY (`username`) REFER
 
 -- AddForeignKey
 ALTER TABLE `voucher` ADD CONSTRAINT `voucher_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `product`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ADD Base roles
+INSERT INTO `role` (`code`,`type`) VALUES ('CUSTOMER','Customer');
+INSERT INTO `role` (`code`,`type`) VALUES ('EMPLOYEE','Employee');
+INSERT INTO `role` (`code`,`type`) VALUES ('MANAGER','Manager');

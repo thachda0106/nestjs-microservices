@@ -4,7 +4,7 @@ import { ApiGatewayController } from './api-gateway.controller';
 import { ApiGatewayService } from './api-gateway.service';
 import { SERVICES_PROVIDER } from './configs/services';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { REQUEST_LIMIT } from './configs/requestLimiter';
+import { REQUEST_LIMIT } from './configs/request-limiter';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({

@@ -1,5 +1,5 @@
-import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
-import { ROLE } from '../entities/role.entity';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ROLE } from '../../entities/auth/role.entity';
 
 export class CreateAccountDto {
   @IsNotEmpty()
@@ -10,9 +10,7 @@ export class CreateAccountDto {
   @IsString()
   password: string;
 
+  @IsOptional()
   @IsEnum(ROLE)
   roleCode: ROLE;
-
-  @IsInt()
-  enable: number;
 }
