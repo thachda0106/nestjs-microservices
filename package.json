@@ -17,7 +17,6 @@
     "auth:dev": "nest start --watch auth",
     "products": "nest start products",
     "products:dev": "nest start --watch products",
-    
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start:debug": "nest start --debug --watch",
@@ -32,10 +31,12 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/microservices": "^10.3.10",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/throttler": "^6.0.0",
     "@prisma/client": "^5.17.0",
+    "class-transformer": "^0.5.1",
     "helmet": "^7.1.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"

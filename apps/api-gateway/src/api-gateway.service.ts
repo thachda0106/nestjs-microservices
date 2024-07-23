@@ -16,9 +16,7 @@ export class ApiGatewayService {
     const payload = {};
     return this.authService
       .send<string>(pattern, payload)
-      .pipe(
-        map((message: string) => ({ message, duration: Date.now() - startTs })),
-      );
+      .pipe(map((data: any) => ({ data, duration: Date.now() - startTs })));
   }
 
   pingProductsService() {
