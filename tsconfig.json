@@ -18,17 +18,23 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@libs/libraries": [
-        "libs/libraries/src"
-      ],
-      "@libs/libraries/*": [
-        "libs/libraries/src/*"
-      ],
       "@libs/prisma": [
         "libs/prisma/src"
       ],
       "@libs/prisma/*": [
         "libs/prisma/src/*"
+      ],
+      "@libs/token": [
+        "libs/token/src"
+      ],
+      "@libs/token/*": [
+        "libs/token/src/*"
+      ],
+      "@libs/token-passport": [
+        "libs/token-passport/src"
+      ],
+      "@libs/token-passport/*": [
+        "libs/token-passport/src/*"
       ]
     }
   }

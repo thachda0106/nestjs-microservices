@@ -1,10 +1,10 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { AccountService } from './account.service';
-import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
 import { PrismaService } from '@libs/prisma';
 import { from } from 'rxjs';
+import { CreateAccountDto } from './dto/auth/create-account.dto';
+import { UpdateAccountDto } from './dto/auth/update-account.dto';
 
 @Controller()
 export class AccountController {
