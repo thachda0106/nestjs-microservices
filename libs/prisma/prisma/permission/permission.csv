@@ -1,0 +1,16 @@
+role,module,create,read,update,delete
+customer,access,1,1,1,1
+employee,access,1,1,1,1
+manager,access,1,1,1,1
+customer,employee,0,0,0,0
+employee,employee,0,0,0,0
+manager,employee,1,1,1,1
+customer,products,0,0,0,0
+employee,products,1,1,1,1
+manager,products,1,1,1,1
+customer,payment,1,1,1,0
+employee,payment,1,1,1,0
+manager,payment,1,1,1,0
+customer,customer,1,1,1,0
+employee,customer,1,1,0,0
+manager,customer,1,1,0,0
