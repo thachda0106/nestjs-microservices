@@ -278,10 +278,10 @@ model reply {
 }
 
 model role {
-  id      Int       @id @default(autoincrement())
-  code    String    @db.VarChar(10)
-  type    String    @db.VarChar(255)
-  account account[]
+  id         Int          @id @default(autoincrement())
+  code       String       @unique(map: "code") @db.VarChar(10)
+  account    account[]
+  permission permission[]
 }
 
 model voucher {
@@ -310,4 +310,24 @@ model token {
   publibKey     String? @db.VarChar(255)
   refresh_token String? @db.VarChar(255)
   account       account @relation(fields: [accountId], references: [id], onUpdate: Restrict, map: "token_ibfk_1")
+}
+
+model module {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique(map: "name_UNIQUE") @db.VarChar(50)
+  createAt   DateTime?    @default(now()) @db.Timestamp(0)
+  updateAt   DateTime?    @default(now()) @db.Timestamp(0)
+  permission permission[]
+}
+
+model permission {
+  roleId   Int
+  moduleId Int
+  createAt DateTime? @default(now()) @db.Timestamp(0)
+  updateAt DateTime? @default(now()) @db.Timestamp(0)
+  module   module    @relation(fields: [moduleId], references: [id], onUpdate: Restrict, map: "permission_module")
+  role     role      @relation(fields: [roleId], references: [id], onUpdate: Restrict, map: "permission_role")
+
+  @@id([roleId, moduleId])
+  @@index([moduleId], map: "permission_module_idx")
 }

@@ -8,9 +8,6 @@ manager,employee,1,1,1,1
 customer,products,0,0,0,0
 employee,products,1,1,1,1
 manager,products,1,1,1,1
-customer,payment,1,1,1,0
-employee,payment,1,1,1,0
-manager,payment,1,1,1,0
-customer,customer,1,1,1,0
-employee,customer,1,1,0,0
-manager,customer,1,1,0,0
+customer,order,1,1,1,0
+employee,order,1,1,1,0
+manager,order,1,1,1,0
