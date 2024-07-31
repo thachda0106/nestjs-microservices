@@ -15,7 +15,15 @@ export class TokenPassportStrategy extends PassportStrategy(Strategy) {
 
   async validate({ username }) {
     const account = await this.prisma.account.findFirst({
-      where: { username },
+      where: { username, enable: 1 },
+      select: {
+        role: {
+          include: {
+            permission: true,
+          },
+        },
+        password: false,
+      },
     });
 
     if (!account) {

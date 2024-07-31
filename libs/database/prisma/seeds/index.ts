@@ -13,7 +13,7 @@ async function main() {
   const rolesMapper = new Map();
   const modulesMapper = new Map();
   roles.forEach((role) => {
-    rolesMapper.set(role['code'], role['id']);
+    rolesMapper.set(role['name'], role['id']);
   });
   modules.forEach((module) => {
     modulesMapper.set(module['name'], module['id']);

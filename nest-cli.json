@@ -37,7 +37,7 @@
         "tsConfigPath": "apps/products/tsconfig.app.json"
       }
     },
-    "prisma": {
+    "database": {
       "type": "library",
       "root": "libs/database",
       "entryFile": "index",

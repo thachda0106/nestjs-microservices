@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { ApiGatewayService } from './api-gateway.service';
 
 @Controller()
@@ -6,7 +6,8 @@ export class ApiGatewayController {
   constructor(private readonly apiGatewayService: ApiGatewayService) {}
 
   @Get('/ping-auth')
-  pingAuthService() {
+  pingAuthService(@Req() req: any) {
+    console.log(req.user);
     return this.apiGatewayService.pingAuthService();
   }
 

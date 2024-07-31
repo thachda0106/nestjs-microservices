@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -8,16 +9,16 @@ datasource db {
 }
 
 model account {
-  id       Int        @id @default(autoincrement())
-  username String     @unique(map: "username") @db.VarChar(255)
-  password String     @db.VarChar(255)
-  roleId   Int?
-  enable   Int?       @default(1) @db.TinyInt
-  createAt DateTime?  @default(now()) @db.Timestamp(0)
-  updateAt DateTime?  @default(now()) @db.Timestamp(0)
-  role     role?      @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "account_ibfk_1")
+  id       Int       @id @default(autoincrement())
+  username String    @unique(map: "username") @db.VarChar(255)
+  password String    @db.VarChar(255)
+  roleId   Int
+  enable   Int?      @default(1) @db.TinyInt
+  createAt DateTime? @default(now()) @db.Timestamp(0)
+  updateAt DateTime? @default(now()) @db.Timestamp(0)
+  role     role      @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "account_ibfk_1")
   comment  comment[]
-  customer customer[]
+  customer customer?
   employee employee?
   reply    reply[]
   token    token?
@@ -107,7 +108,7 @@ model customer {
   id              Int               @id @default(autoincrement())
   customerId      Int?
   fullName        String            @db.VarChar(255)
-  username        String?           @db.VarChar(255)
+  username        String            @unique(map: "username_UNIQUE") @db.VarChar(255)
   email           String?           @db.VarChar(255)
   avatar          String?           @db.VarChar(255)
   phoneNumber     String?           @db.VarChar(20)
@@ -116,7 +117,7 @@ model customer {
   createAt        DateTime?         @default(now()) @db.Timestamp(0)
   updateAt        DateTime?         @default(now()) @db.Timestamp(0)
   cart            cart[]
-  account         account?          @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "customer_ibfk_1")
+  account         account           @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "customer_ibfk_1")
   customerVoucher customerVoucher[]
   order           order[]
   productRating   productRating[]
@@ -286,7 +287,7 @@ model reply {
 
 model role {
   id         Int          @id @default(autoincrement())
-  code       String       @unique(map: "code") @db.VarChar(10)
+  name       String       @unique(map: "name") @db.VarChar(10)
   createAt   DateTime?    @default(now()) @db.Timestamp(0)
   updateAt   DateTime?    @default(now()) @db.Timestamp(0)
   account    account[]
@@ -332,16 +333,16 @@ model module {
 }
 
 model permission {
-  roleId   Int
-  moduleId Int
-  create   Int       @default(0) @db.TinyInt
-  read     Int       @default(0) @db.TinyInt
-  update   Int       @default(0) @db.TinyInt
-  delete   Int       @default(0) @db.TinyInt
-  createAt DateTime? @default(now()) @db.Timestamp(0)
-  updateAt DateTime? @default(now()) @db.Timestamp(0)
-  module   module    @relation(fields: [moduleId], references: [id], onUpdate: Restrict, map: "permission_module")
-  role     role      @relation(fields: [roleId], references: [id], onUpdate: Restrict, map: "permission_role")
+  roleId    Int
+  moduleId  Int
+  canCreate Int       @default(0) @db.TinyInt
+  canRead   Int       @default(0) @db.TinyInt
+  canUpdate Int       @default(0) @db.TinyInt
+  canDelete Int       @default(0) @db.TinyInt
+  createAt  DateTime? @default(now()) @db.Timestamp(0)
+  updateAt  DateTime? @default(now()) @db.Timestamp(0)
+  module    module    @relation(fields: [moduleId], references: [id], onUpdate: Restrict, map: "permission_module")
+  role      role      @relation(fields: [roleId], references: [id], onUpdate: Restrict, map: "permission_role")
 
   @@id([roleId, moduleId])
   @@index([moduleId], map: "permission_module_idx")

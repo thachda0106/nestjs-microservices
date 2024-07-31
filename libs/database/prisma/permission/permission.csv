@@ -1,4 +1,4 @@
-role,module,create,read,update,delete
+role,module,canCreate,canRead,canUpdate,canDelelte
 customer,access,1,1,1,1
 employee,access,1,1,1,1
 manager,access,1,1,1,1

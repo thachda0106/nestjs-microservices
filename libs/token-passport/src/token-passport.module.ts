@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TokenPassportService } from './token-passport.service';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from '@libs/database';
+import { Reflector } from '@nestjs/core';
 
 @Module({
   imports: [ConfigModule.forRoot(), PassportModule, PrismaModule],
-  providers: [TokenPassportService],
-  exports: [TokenPassportService, PrismaModule],
+  providers: [Reflector],
+  exports: [PrismaModule, Reflector],
 })
 export class TokenPassportModule {}

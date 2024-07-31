@@ -8,4 +8,8 @@ export class TokenService {
   async createAccessToken(payload) {
     return await this.jwtService.signAsync(payload);
   }
+
+  async createRefreshToken(payload) {
+    return await this.jwtService.signAsync(payload);
+  }
 }

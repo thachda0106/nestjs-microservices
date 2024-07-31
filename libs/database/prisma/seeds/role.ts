@@ -2,13 +2,13 @@ export async function initRole(prisma) {
   await prisma.role.createMany({
     data: [
       {
-        code: 'customer',
+        name: 'customer',
       },
       {
-        code: 'employee',
+        name: 'employee',
       },
       {
-        code: 'manager',
+        name: 'manager',
       },
     ],
     skipDuplicates: true,
