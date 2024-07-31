@@ -5,7 +5,7 @@ const path = require('node:path');
 export async function initPermission(prisma, rolesMapper, modulesMapper) {
   const permission =
     (await csv().fromFile(
-      path.join(process.cwd(), '/libs/prisma/prisma/permission/permission.csv'),
+      path.join(process.cwd(), '/libs/database/prisma/permission/permission.csv'),
     )) || [];
 
   const permissionMapped = permission.map((per) => ({

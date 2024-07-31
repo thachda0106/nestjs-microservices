@@ -16,4 +16,4 @@ services:
     expose:
       - 3306
     volumes:
-      - ../../libs/prisma/prisma/migrations/20240723091709_schema/migration.sql:/docker-entrypoint-initdb.d/database.sql
+      - ../../libs/database/prisma/migrations/20240723091709_schema/migration.sql:/docker-entrypoint-initdb.d/database.sql

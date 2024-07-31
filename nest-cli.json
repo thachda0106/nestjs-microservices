@@ -39,11 +39,11 @@
     },
     "prisma": {
       "type": "library",
-      "root": "libs/prisma",
+      "root": "libs/database",
       "entryFile": "index",
-      "sourceRoot": "libs/prisma/src",
+      "sourceRoot": "libs/database/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/prisma/tsconfig.lib.json"
+        "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
     },
     "token": {
