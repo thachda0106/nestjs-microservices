@@ -1,12 +1,4 @@
-export const Role = {
-  customer: 1,
-  employee: 2,
-  manager: 3,
-};
-
 export async function initRole(prisma) {
-  await prisma.role.deleteMany({});
-
   await prisma.role.createMany({
     data: [
       {
@@ -19,5 +11,8 @@ export async function initRole(prisma) {
         code: 'manager',
       },
     ],
+    skipDuplicates: true,
   });
+
+  return await prisma.role.findMany();
 }

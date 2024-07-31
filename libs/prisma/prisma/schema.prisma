@@ -12,11 +12,13 @@ model account {
   username String     @unique(map: "username") @db.VarChar(255)
   password String     @db.VarChar(255)
   roleId   Int?
-  enable   Int?       @db.TinyInt
+  enable   Int?       @default(1) @db.TinyInt
+  createAt DateTime?  @default(now()) @db.Timestamp(0)
+  updateAt DateTime?  @default(now()) @db.Timestamp(0)
   role     role?      @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "account_ibfk_1")
   comment  comment[]
   customer customer[]
-  employee employee[]
+  employee employee?
   reply    reply[]
   token    token?
 
@@ -39,6 +41,8 @@ model attribute {
   attributeId      Int?
   categoryId       Int?
   name             String             @db.VarChar(255)
+  createAt         DateTime?          @default(now()) @db.Timestamp(0)
+  updateAt         DateTime?          @default(now()) @db.Timestamp(0)
   categories       categories?        @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "attribute_ibfk_1")
   productAttribute productAttribute[]
 
@@ -109,6 +113,8 @@ model customer {
   phoneNumber     String?           @db.VarChar(20)
   shippingAddress String?           @db.Text
   gender          Int?              @db.TinyInt
+  createAt        DateTime?         @default(now()) @db.Timestamp(0)
+  updateAt        DateTime?         @default(now()) @db.Timestamp(0)
   cart            cart[]
   account         account?          @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "customer_ibfk_1")
   customerVoucher customerVoucher[]
@@ -132,7 +138,6 @@ model customerVoucher {
 
 model employee {
   id             Int       @id @default(autoincrement())
-  employeeId     Int?
   avatar         String?   @db.VarChar(255)
   email          String?   @db.VarChar(255)
   fullName       String?   @db.VarChar(255)
@@ -140,9 +145,11 @@ model employee {
   phoneNumber    String?   @db.VarChar(20)
   identification String?   @db.VarChar(50)
   dateOfBirth    DateTime? @db.Date
-  username       String?   @db.VarChar(255)
+  username       String    @unique(map: "username_UNIQUE") @db.VarChar(255)
   addressId      Int?
-  account        account?  @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "employee_ibfk_1")
+  createAt       DateTime? @default(now()) @db.Timestamp(0)
+  updateAt       DateTime? @default(now()) @db.Timestamp(0)
+  account        account   @relation(fields: [username], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "employee_ibfk_1")
   address        address?  @relation(fields: [addressId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "employee_ibfk_2")
   order          order[]
 
@@ -280,6 +287,8 @@ model reply {
 model role {
   id         Int          @id @default(autoincrement())
   code       String       @unique(map: "code") @db.VarChar(10)
+  createAt   DateTime?    @default(now()) @db.Timestamp(0)
+  updateAt   DateTime?    @default(now()) @db.Timestamp(0)
   account    account[]
   permission permission[]
 }
@@ -303,13 +312,15 @@ model voucher {
 }
 
 model token {
-  id            Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  accountId     Int     @unique(map: "accountId_UNIQUE")
-  access_token  String? @db.VarChar(255)
-  privateKey    String? @db.VarChar(255)
-  publibKey     String? @db.VarChar(255)
-  refresh_token String? @db.VarChar(255)
-  account       account @relation(fields: [accountId], references: [id], onUpdate: Restrict, map: "token_ibfk_1")
+  id           Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  accountId    Int       @unique(map: "accountId_UNIQUE")
+  accessToken  String?   @db.VarChar(255)
+  privateKey   String?   @db.VarChar(255)
+  publibKey    String?   @db.VarChar(255)
+  refreshToken String?   @db.VarChar(255)
+  createAt     DateTime? @default(now()) @db.Timestamp(0)
+  updateAt     DateTime? @default(now()) @db.Timestamp(0)
+  account      account   @relation(fields: [accountId], references: [id], onUpdate: Restrict, map: "token_ibfk_1")
 }
 
 model module {
@@ -323,6 +334,10 @@ model module {
 model permission {
   roleId   Int
   moduleId Int
+  create   Int       @default(0) @db.TinyInt
+  read     Int       @default(0) @db.TinyInt
+  update   Int       @default(0) @db.TinyInt
+  delete   Int       @default(0) @db.TinyInt
   createAt DateTime? @default(now()) @db.Timestamp(0)
   updateAt DateTime? @default(now()) @db.Timestamp(0)
   module   module    @relation(fields: [moduleId], references: [id], onUpdate: Restrict, map: "permission_module")
