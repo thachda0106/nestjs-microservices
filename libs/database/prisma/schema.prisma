@@ -315,10 +315,8 @@ model voucher {
 model token {
   id           Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
   accountId    Int       @unique(map: "accountId_UNIQUE")
-  accessToken  String?   @db.VarChar(255)
-  privateKey   String?   @db.VarChar(255)
-  publibKey    String?   @db.VarChar(255)
-  refreshToken String?   @db.VarChar(255)
+  accessToken  String    @db.VarChar(255)
+  refreshToken String    @db.VarChar(255)
   createAt     DateTime? @default(now()) @db.Timestamp(0)
   updateAt     DateTime? @default(now()) @db.Timestamp(0)
   account      account   @relation(fields: [accountId], references: [id], onUpdate: Restrict, map: "token_ibfk_1")

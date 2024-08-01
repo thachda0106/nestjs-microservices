@@ -10,6 +10,8 @@ import { TokenPassportModule } from '@libs/token-passport';
 import { TokenPassportStrategy } from '@libs/token-passport/token-passport.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { TokenPassportAuthGuard } from '@libs/token-passport/token-passport.guard';
+import { RolesGuard } from './guards/roles.guard';
+import { AccessController } from './modules/auth/access.controller';
 
 @Module({
   imports: [
@@ -18,11 +20,12 @@ import { TokenPassportAuthGuard } from '@libs/token-passport/token-passport.guar
     ThrottlerModule.forRoot([REQUEST_LIMIT]),
     TokenPassportModule,
   ],
-  controllers: [ApiGatewayController],
+  controllers: [ApiGatewayController, AccessController],
   providers: [
     ApiGatewayService,
     TokenPassportStrategy,
     { provide: APP_GUARD, useClass: TokenPassportAuthGuard },
+    { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
 export class ApiGatewayModule {}

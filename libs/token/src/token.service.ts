@@ -5,11 +5,12 @@ import { JwtService } from '@nestjs/jwt';
 export class TokenService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async createAccessToken(payload) {
-    return await this.jwtService.signAsync(payload);
-  }
-
-  async createRefreshToken(payload) {
-    return await this.jwtService.signAsync(payload);
+  async createTokens(payload) {
+    return Promise.all([
+      this.jwtService.signAsync(payload, {
+        expiresIn: '1h',
+      }),
+      this.jwtService.signAsync(payload),
+    ]);
   }
 }

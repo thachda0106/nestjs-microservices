@@ -42,11 +42,14 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/throttler": "^6.0.0",
     "@prisma/client": "^5.17.0",
+    "@types/lodash": "^4.17.7",
+    "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "compression": "^1.7.4",
     "concurrently": "^8.2.2",
     "helmet": "^7.1.0",
+    "lodash": "^4.17.21",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
@@ -106,7 +109,9 @@
       "^@libs/token(|/.*)$": "<rootDir>/libs/token/src/$1",
       "^@libs/passport(|/.*)$": "<rootDir>/libs/passport/src/$1",
       "^@lib/token-passport(|/.*)$": "<rootDir>/libs/token-passport/src/$1",
-      "^@libs/token-passport(|/.*)$": "<rootDir>/libs/token-passport/src/$1"
+      "^@libs/token-passport(|/.*)$": "<rootDir>/libs/token-passport/src/$1",
+      "^@libs/crypto(|/.*)$": "<rootDir>/libs/crypto/src/$1",
+      "^@libs/infrastructure(|/.*)$": "<rootDir>/libs/infrastructure/src/$1"
     }
   },
   "prisma": {

@@ -1,7 +1,7 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { IS_SKIP_AUTH } from './token-passport.decorator';
+import { FREE_PASSPORT } from './token-passport.decorator';
 
 @Injectable()
 export class TokenPassportAuthGuard extends AuthGuard('jwt') {
@@ -10,10 +10,10 @@ export class TokenPassportAuthGuard extends AuthGuard('jwt') {
   }
 
   canActivate(context: ExecutionContext) {
-    const isSkipAuth = this.reflector.getAllAndOverride<boolean>(IS_SKIP_AUTH, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const isSkipAuth = this.reflector.getAllAndOverride<boolean>(
+      FREE_PASSPORT,
+      [context.getHandler(), context.getClass()],
+    );
 
     if (isSkipAuth) {
       return true;

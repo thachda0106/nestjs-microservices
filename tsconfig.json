@@ -35,6 +35,18 @@
       ],
       "@libs/token-passport/*": [
         "libs/token-passport/src/*"
+      ],
+      "@libs/crypto": [
+        "libs/crypto/src"
+      ],
+      "@libs/crypto/*": [
+        "libs/crypto/src/*"
+      ],
+      "@libs/infrastructure": [
+        "libs/infrastructure/src"
+      ],
+      "@libs/infrastructure/*": [
+        "libs/infrastructure/src/*"
       ]
     }
   }
