@@ -12,7 +12,7 @@ import { LoginAccountDto } from '@libs/infrastructure/modules/auth/dto/login-acc
 import { LOGIN_MESSAGE } from '@libs/infrastructure/modules/auth/message-patterns/access';
 import { catchError } from 'rxjs';
 
-@Controller()
+@Controller('auth')
 export class AccessController {
   constructor(
     @Inject(SERVICES.Auth) private readonly authService: ClientProxy,

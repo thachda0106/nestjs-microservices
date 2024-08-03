@@ -2,7 +2,7 @@ export async function initModule(prisma) {
   await prisma.module.createMany({
     data: [
       {
-        name: 'access',
+        name: 'auth',
       },
       {
         name: 'products',

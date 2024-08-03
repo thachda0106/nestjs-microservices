@@ -22,10 +22,9 @@ export class AccessService {
       throw new RpcException('Invalid credentials.');
     }
 
-    const userInfo =
-      (await account.role.name) === Roles.Customer
-        ? this.accountService.getCustomerInfo(username)
-        : this.accountService.getEmployeeInfo(username);
+    const userInfo = await (account.role.name === Roles.Customer
+      ? this.accountService.getCustomerInfo(username)
+      : this.accountService.getEmployeeInfo(username));
 
     const accountInfo = _.omit(account, ['password']);
 

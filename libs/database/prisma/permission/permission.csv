@@ -1,7 +1,7 @@
-role,module,canCreate,canRead,canUpdate,canDelelte
-customer,access,1,1,1,1
-employee,access,1,1,1,1
-manager,access,1,1,1,1
+role,module,canCreate,canRead,canUpdate,canDelete
+customer,auth,1,1,1,0
+employee,auth,1,1,1,0
+manager,auth,1,1,1,1
 customer,employee,0,0,0,0
 employee,employee,0,0,0,0
 manager,employee,1,1,1,1

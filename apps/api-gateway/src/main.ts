@@ -19,6 +19,7 @@ const logger = new Logger();
       transform: true,
     }),
   );
+  app.setGlobalPrefix('api');
 
   await app.listen(process.env.API_GATEWAY_PORT);
   logger.log(

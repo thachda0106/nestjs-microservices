@@ -19,10 +19,13 @@ export class TokenPassportStrategy extends PassportStrategy(Strategy) {
       select: {
         role: {
           include: {
-            permission: true,
+            permission: {
+              include: {
+                module: true,
+              },
+            },
           },
         },
-        password: false,
       },
     });
 

@@ -7,6 +7,12 @@ export async function initAccount(prisma, rolesMapper) {
           '$2b$10$yQf7g5jJsDxY7sBwhbGiGevOLUne3JQUDDB6iZyjZ88dkbbWgvKq6',
         roleId: rolesMapper.get('manager'),
       },
+      {
+        username: 'customer1',
+        password:
+          '$2b$10$yQf7g5jJsDxY7sBwhbGiGevOLUne3JQUDDB6iZyjZ88dkbbWgvKq6',
+        roleId: rolesMapper.get('customer'),
+      },
     ],
     skipDuplicates: true,
   });
