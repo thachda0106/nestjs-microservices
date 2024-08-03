@@ -73,13 +73,13 @@
         "tsConfigPath": "libs/crypto/tsconfig.lib.json"
       }
     },
-    "infrastructure": {
+    "domain": {
       "type": "library",
-      "root": "libs/infrastructure",
+      "root": "libs/domain",
       "entryFile": "index",
-      "sourceRoot": "libs/infrastructure/src",
+      "sourceRoot": "libs/domain/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/infrastructure/tsconfig.lib.json"
+        "tsConfigPath": "libs/domain/tsconfig.lib.json"
       }
     }
   }

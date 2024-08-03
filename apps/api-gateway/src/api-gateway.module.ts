@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
-import { ApiGatewayController } from './api-gateway.controller';
-import { ApiGatewayService } from './api-gateway.service';
 import { SERVICES_PROVIDER } from './configs/services';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { REQUEST_LIMIT } from './configs/request-limiter';
@@ -20,9 +18,8 @@ import { AccessController } from './modules/auth/access.controller';
     ThrottlerModule.forRoot([REQUEST_LIMIT]),
     TokenPassportModule,
   ],
-  controllers: [ApiGatewayController, AccessController],
+  controllers: [AccessController],
   providers: [
-    ApiGatewayService,
     TokenPassportStrategy,
     { provide: APP_GUARD, useClass: TokenPassportAuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },

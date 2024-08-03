@@ -18,6 +18,9 @@ export class RolesGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     const { user, url, method } = request;
+    if (!user) {
+      return true;
+    }
 
     const isUserHasPermission = user.role.permission.some((permission) => {
       return (

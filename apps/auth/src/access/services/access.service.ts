@@ -1,10 +1,10 @@
 import { TokenService } from '@libs/token';
-import { LoginAccountDto } from '@libs/infrastructure/modules/auth/dto/login-account.dto';
+import { LoginAccountRequestDto } from '@libs/domain/modules/auth/dto/login-account.dto';
 import { CryptoService } from '@libs/crypto';
 import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { AccountService } from './account.service';
-import { Roles } from '@libs/infrastructure/modules/auth/entities/roles';
+import { Roles } from '@libs/domain/modules/auth/entities/roles';
 const _ = require('lodash');
 
 @Injectable()
@@ -15,7 +15,7 @@ export class AccessService {
     private readonly accountService: AccountService,
   ) {}
 
-  async login({ username, password }: LoginAccountDto) {
+  async login({ username, password }: LoginAccountRequestDto) {
     const account = await this.accountService.getAccountInfo(username);
 
     if (!account || !this.crypto.compare(password, account.password)) {

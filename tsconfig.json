@@ -42,11 +42,11 @@
       "@libs/crypto/*": [
         "libs/crypto/src/*"
       ],
-      "@libs/infrastructure": [
-        "libs/infrastructure/src"
+      "@libs/domain": [
+        "libs/domain/src"
       ],
-      "@libs/infrastructure/*": [
-        "libs/infrastructure/src/*"
+      "@libs/domain/*": [
+        "libs/domain/src/*"
       ]
     }
   }
