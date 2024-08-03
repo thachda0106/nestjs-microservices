@@ -5,10 +5,11 @@ import { PrismaModule } from '@libs/database';
 import { CryptoModule } from '@libs/crypto';
 import { TokenModule } from '@libs/token';
 import { AccountService } from './services/account.service';
+import { AccountTokenService } from './services/account-token.service';
 
 @Module({
   imports: [PrismaModule, CryptoModule, TokenModule],
   controllers: [AccessController],
-  providers: [AccessService, AccountService],
+  providers: [AccessService, AccountService, AccountTokenService],
 })
 export class AccessModule {}

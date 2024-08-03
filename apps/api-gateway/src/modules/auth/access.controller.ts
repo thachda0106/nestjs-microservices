@@ -41,7 +41,7 @@ export class AccessController {
   @FreePassport()
   @Post('login')
   getClassName(@Body() loginPayload: LoginAccountRequestDto) {
-    return this.authService.send<string>(LOGIN_MESSAGE, loginPayload).pipe(
+    return this.authService.send(LOGIN_MESSAGE, loginPayload).pipe(
       catchError(() => {
         throw new UnauthorizedException();
       }),

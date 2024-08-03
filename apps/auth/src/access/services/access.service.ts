@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { AccountService } from './account.service';
 import { Roles } from '@libs/domain/modules/auth/entities/roles';
+import { AccountTokenService } from './account-token.service';
 const _ = require('lodash');
 
 @Injectable()
@@ -13,6 +14,7 @@ export class AccessService {
     private readonly crypto: CryptoService,
     private readonly token: TokenService,
     private readonly accountService: AccountService,
+    private readonly accountTokenService: AccountTokenService,
   ) {}
 
   async login({ username, password }: LoginAccountRequestDto) {
@@ -30,6 +32,17 @@ export class AccessService {
 
     const [accessToken, refreshToken] =
       await this.token.createTokens(accountInfo);
+
+    await this.accountTokenService.updateActiveAccountToken({
+      accessToken,
+      refreshToken,
+      updateAt: new Date(),
+      account: {
+        connect: {
+          username,
+        },
+      },
+    });
 
     return {
       accessToken,

@@ -314,12 +314,12 @@ model voucher {
 
 model token {
   id           Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  accountId    Int       @unique(map: "accountId_UNIQUE")
   accessToken  String    @db.VarChar(255)
   refreshToken String    @db.VarChar(255)
   createAt     DateTime? @default(now()) @db.Timestamp(0)
   updateAt     DateTime? @default(now()) @db.Timestamp(0)
-  account      account   @relation(fields: [accountId], references: [id], onUpdate: Restrict, map: "token_ibfk_1")
+  username     String    @unique(map: "username_UNIQUE") @db.VarChar(255)
+  account      account   @relation(fields: [username], references: [username], onDelete: Cascade, map: "fk_token_account")
 }
 
 model module {
